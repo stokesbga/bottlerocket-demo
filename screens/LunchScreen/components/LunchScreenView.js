@@ -20,7 +20,6 @@ export default class LunchScreenView extends React.PureComponent {
   }
 
   _goToRestaurantScreen = (item) => {
-    console.log(item);
     this.props.navigation.navigate('Restaurant', item)
   }
 
