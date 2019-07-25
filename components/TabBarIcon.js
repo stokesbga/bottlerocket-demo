@@ -1,15 +1,15 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'react-native'
 
-import Colors from '../constants/Colors';
+const InternetsImgIcon = require('../assets/images/tab_internets.png');
+const LunchImgIcon = require('../assets/images/tab_lunch.png');
 
-export default function TabBarIcon(props) {
+export default ({ name, focused }) => {
   return (
-    <Ionicons
-      name={props.name}
-      size={26}
-      style={{ marginBottom: -3 }}
-      color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+    <Image
+      source={name === 'internets' ? InternetsImgIcon : LunchImgIcon}
+      style={{ width: 23, height: 23 }}
+      resizeMode={'contain'}
     />
   );
 }

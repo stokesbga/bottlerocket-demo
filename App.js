@@ -4,8 +4,10 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import configureStore from "./store";
 
 import AppNavigator from './navigation/AppNavigator';
+const RootApp = configureStore(AppNavigator);
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -18,35 +20,31 @@ export default function App(props) {
         onFinish={() => handleFinishLoading(setLoadingComplete)}
       />
     );
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-    );
-  }
+  } 
+  return <RootApp />
 }
 
 async function loadResourcesAsync() {
   await Promise.all([
     Asset.loadAsync([
-      require('./assets/images/robot-dev.png'),
-      require('./assets/images/robot-prod.png'),
+      require('./assets/images/gradient_bg.png'),
+      require('./assets/images/ic_close.png'),
+      require('./assets/images/ic_webBack.png'),
+      require('./assets/images/ic_webForward.png'),
+      require('./assets/images/ic_webRefresh.png'),
+      require('./assets/images/icon_map.png'),
+      require('./assets/images/icon.png'),
+      require('./assets/images/splash.png'),
+      require('./assets/images/tab_internets.png'),
+      require('./assets/images/tab_lunch.png'),
     ]),
     Font.loadAsync({
-      // This is the font that we are using for our tab bar
-      ...Ionicons.font,
-      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-      // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+      'Avenir': require('./assets/fonts/Avenir.ttf'),
     }),
   ]);
 }
 
 function handleLoadingError(error: Error) {
-  // In this case, you might want to report the error to your error reporting
-  // service, for example Sentry
   console.warn(error);
 }
 

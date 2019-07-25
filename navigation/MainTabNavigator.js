@@ -1,78 +1,69 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, TabBarBottom } from 'react-navigation';
 
+// Components
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 
-const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
-});
+// Screens
+import LunchScreen from '../screens/LunchScreen';
+import InternetsScreen from '../screens/InternetsScreen';
+import RestaurantScreen from '../screens/RestaurantScreen';
 
-const HomeStack = createStackNavigator(
+import styles from './styles';
+
+// Internets Tab
+const InternetsStack = createStackNavigator(
   {
-    Home: HomeScreen,
-  },
-  config
+    Internets: InternetsScreen
+  }, {
+    defaultNavigationOptions: {
+      ...styles.headerOptions,
+    }
+  }
 );
-
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+InternetsStack.navigationOptions = {
+  tabBarLabel: 'internets',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={'internets'}
     />
   ),
+  ...styles.headerOptions,
+  tabBarOptions: styles.tabBarOptions
 };
+InternetsStack.path = 'internets';
 
-HomeStack.path = '';
-
-const LinksStack = createStackNavigator(
+// Lunch Tab
+const LunchStack = createStackNavigator(
   {
-    Links: LinksScreen,
-  },
-  config
+    Lunch: LunchScreen,
+    Restaurant: RestaurantScreen
+  }, {
+    defaultNavigationOptions: {
+      ...styles.headerOptions,
+    }
+  }
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+LunchStack.navigationOptions = {
+  tabBarLabel: 'lunch',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={'lunch'} />
   ),
+  ...styles.headerOptions,
+  tabBarOptions: styles.tabBarOptions
 };
 
-LinksStack.path = '';
+LunchStack.path = 'lunch';
 
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen,
-  },
-  config
-);
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
-};
-
-SettingsStack.path = '';
-
-const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+// Main Tab Nav
+const MainTabNavigator = createBottomTabNavigator({
+  LunchStack,
+  InternetsStack,
 });
 
-tabNavigator.path = '';
+MainTabNavigator.path = '';
 
-export default tabNavigator;
+export default MainTabNavigator;
